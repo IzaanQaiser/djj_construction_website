@@ -37,14 +37,28 @@ const testimonials = [
 
 const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || window.innerHeight > window.innerWidth);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % (testimonials.length - 2));
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
+  const visibleTestimonials = isMobile ? 1 : 3;
 
   return (
     <section id="testimonials" className="py-16 bg-gray-100">
@@ -53,10 +67,10 @@ const Testimonials: React.FC = () => {
         <div className="relative overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+            style={{ transform: `translateX(-${currentIndex * (100 / visibleTestimonials)}%)` }}
           >
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="w-1/3 flex-shrink-0 px-4">
+              <div key={index} className={`${isMobile ? 'w-full' : 'w-1/3'} flex-shrink-0 px-4`}>
                 <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                   <p className="text-gray-600 mb-4 italic">{testimonial.text}</p>
                   <p className="font-semibold text-primary">{testimonial.name}</p>
