@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.animate-fade-in-up {
+  @apply opacity-0;
+}
+
+.animate-fade-in-up:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-fade-in-up:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-fade-in-up:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.animate-fade-in-up:nth-child(5) {
+  animation-delay: 0.5s;
+}
